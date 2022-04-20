@@ -65,7 +65,18 @@ const authorsName = async function(req, res){
   res.send({msg:authorName})
 };
 
+const totalSalesPerAuthor = async function(req , res) {
+    let allAuthorSales = await bookModel.aggregate(
+        [
+            { $group: { _id:"$authorName" , totalNumberOfprice: { $sum: "$sales"}} },
+            { $sort: {totalNumberOfprice:-1} }
+        ]
+    )
+    res.send( {allAuthorSales })
+}
 
+
+module.exports.totalSalesPerAuthor=totalSalesPerAuthor
 //Today
 module.exports.createNewAuthor=createNewAuthor
 module.exports.createNewBook=createNewBook
