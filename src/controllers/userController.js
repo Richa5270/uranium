@@ -1,80 +1,50 @@
 const req = require("express/lib/request")
-const UserModel= require("../models/userModel")
+const userModel = require("../models/userModel")
 
-const basicCode= async function(req, res) {
-    let tokenDataInHeaders= req.headers.token
-    console.log(tokenDataInHeaders)
-    //counter
-    console.log( "HEADER DATA ABOVE")
-    console.log( "hey man, congrats you have reached the Handler")
-    res.send({ msg: "This is coming from controller (handler)"})
-    
+//solution:-2
+    //Write a POST api to create a user that takes user details from the request body. 
+    //If the header isFreeAppUser is not present terminate the request response cycle with 
+    //an error message that the request is missing a mandatory header
+
+const createAUser = async function(req, res) {
+    let newUS = req.body
+    let headers  = req.headers
+    let abc = req.headers['isfreeAppUser']
+    if(!abc){
+      let abc = headers['isfreeappuser']
+      let abcFree = false
+    if(abc == 'true') {
+         abcFree = true
+    }
+      if(!abcFree){
+          return res.send({status:false, msg: "The request is missing a mandatory header"})
+      }
+      let usercreate = await userModel.create(newUS)
+      res.send(usercreate)
     }
 
-
-const createAUser = function(req, res) {
-    let requestBody = req.body
-    let headers  = req.headers
-    
-
-    //Printing all the headers before modification - addition of a new header called 'month'
-    console.log('Request headers are before: ', headers)
-
-    //Accessing a request header called 'batch'
-    let batchHeader = headers["batch"] // headers.batch 
-    
-    ///Accessing a request header called 'content-type'
-    let contentHeader = headers['content-type'] // headers.content-type
-
-    console.log('Content Type hedser is: ',contentHeader)
-    console.log('Batch header is: ', batchHeader)
-
-    //Adding a new requets header
-    req.headers["month"] = 'April' //req.headers.month = 'April' or req.headers["month"] = 'April'
-
-
-    //Printing the headers after modification - addition of a new header called 'month'
-    console.log('Request headers are after: ', headers)
-
-
-    console.log('Request property called current-day', req['current-day'])
-    
-    //Adding a response header
-    res.header('year', '2022')
-
-    res.send('Just create a user')
 }
+    
 
-module.exports.createAUser = createAUser
-module.exports.basicCode = basicCode
-
-
+module.exports.usercreate = createAUser
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-const createUser= async function (req, res) {
+const createUS= async function (req, res) {
     let data= req.body
     let savedData= await UserModel.create(data)
     res.send({msg: savedData})
 }
+
+module.exports.createUS=createUS
+
 
 const getUsersData= async function (req, res) {
     let allUsers= await UserModel.find()
     res.send({msg: allUsers})
 }
 
-module.exports.createUser= createUser
-module.exports.getUsersData= getUsersData
-module.exports.basicCode= basicCode
+module.exports.createAUser= createAUser
+module.exports.getUsersData= getUsersData    
