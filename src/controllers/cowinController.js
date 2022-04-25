@@ -20,7 +20,7 @@ let getStates = async function (req, res) {
 }
 
 
-let getDistricts = async function (req, res) {
+/*let getDistricts = async function (req, res) {
     try {
         let id = req.params.stateId
         let options = {
@@ -36,7 +36,7 @@ let getDistricts = async function (req, res) {
         console.log(err)
         res.status(500).send({ msg: err.message })
     }
-}
+}*/
 
 let getByPin = async function (req, res) {
     try {
@@ -80,6 +80,6 @@ let getOtp = async function (req, res) {
 
 
 module.exports.getStates = getStates
-module.exports.getDistricts = getDistricts
+//module.exports.getDistricts = getDistricts
 module.exports.getByPin = getByPin
 module.exports.getOtp = getOtp
